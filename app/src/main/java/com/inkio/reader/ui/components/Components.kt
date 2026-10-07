@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
@@ -78,9 +79,7 @@ private val grainBitmap: ImageBitmap by lazy {
 }
 
 /** Theme background; on e-ink it gets a faint paper grain like real e-paper. */
-fun Modifier.paperBackground(): Modifier = this.then(Modifier.drawBehind { }).composedPaper()
-
-private fun Modifier.composedPaper(): Modifier = androidx.compose.ui.composed {
+fun Modifier.paperBackground(): Modifier = composed {
     val p = LocalInk.current
     val brush = remember { ShaderBrush(ImageShader(grainBitmap, TileMode.Repeated, TileMode.Repeated)) }
     this.background(p.bg).drawBehind {
